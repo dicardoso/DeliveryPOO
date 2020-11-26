@@ -81,8 +81,8 @@ public class Pedido {
 	}
 	@Override
 	public String toString() {
-		return "\nPedido " + id + "\nData e Hora: " + dataHora.format(formatter) + "\nValor Total: R$" + valorTotal + "\nEntregador:"
-				+ entregador + "\nPago:" + (pago ? "S" : "N") + "\nProdutos:\n\t" + produtos + "\nCliente:" + cliente + "\n";
+		return "Pedido " + id + "\nData e Hora: " + dataHora.format(formatter) + "\nValor Total: R$" + valorTotal + "\nEntregador: "
+				+ entregador + "\nPago: " + (pago ? "S" : "N") + "\nProdutos: \n\t" + produtos + "\nCliente: " + cliente + "\n";
 	}
 	
 }

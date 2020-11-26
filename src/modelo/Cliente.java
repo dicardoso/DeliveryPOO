@@ -54,7 +54,7 @@ public class Cliente {
 		for (Pedido p : pedidos) {
 			ped += "\n"+p.getId();
 		}
-		return "\nNome:" + nome + "\nTelefone: " + telefone + "\nEndereco:" + endereco + "\nPedidos:" + ped ;
+		return "\nNome: " + nome + "\nTelefone: " + telefone + "\nEndereco: " + endereco + "\nPedidos: " + ped ;
 	}
 	
 }
