@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class Pedido {
 	private int id;
 	private LocalDateTime dataHora;
-	private double valorTotal;
+	protected double valorTotal;
 	private String entregador;
 	private boolean pago;
-	private ArrayList<Produto> produtos = new ArrayList<>();
+	protected ArrayList<Produto> produtos = new ArrayList<>();
 	private Cliente cliente;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
@@ -66,14 +66,20 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 	
-	public void adicionaProduto(Produto produto) {
-		this.produtos.add(produto);		
-		this.setValorTotal(valorTotal + produto.getPreco());
+	public void adicionaProduto(Produto produto) throws Exception {
+		if(!this.produtos.contains(produto)) {
+			this.produtos.add(produto);		
+			this.setValorTotal(valorTotal + produto.getPreco());
+		}
+		else {
+			throw new Exception("Produto "+ produto.getNome().toUpperCase() +" já existe no pedido "+getId());
+		}
 	}
 	
 	public void removeProduto(Produto produto) throws Exception {
 		if (produtos.contains(produto)) {
 			this.produtos.remove(produto);
+			this.setValorTotal(valorTotal - produto.getPreco());
 		}
 		else {
 			throw new Exception("Produto "+ produto.getNome().toUpperCase() +" não existe no pedido "+getId());

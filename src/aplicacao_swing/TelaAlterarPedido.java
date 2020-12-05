@@ -7,7 +7,6 @@ package aplicacao_swing;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,31 +18,14 @@ import fachada.Fachada;
 
 public class TelaAlterarPedido extends JFrame {
 	private JPanel contentPane;
-	private JLabel lblId;
-	private JLabel lblNome;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JButton btnInserir;
-	private DefaultListModel<String> model = new DefaultListModel<String>();	
+	private JLabel lblIdPedido;
+	private JLabel lblIdProduto;
+	private JTextField textFieldPedido;
+	private JTextField textFieldProduto;
+	private JButton btnInserir;	
 	private JLabel lblmsg;
 	private JButton btnLimpar;
 	private JButton button;
-
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					TelaProdutoPrateleira window = new TelaProdutoPrateleira();
-//					window.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.
@@ -56,7 +38,7 @@ public class TelaAlterarPedido extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		setTitle("Inserir Produto na Prateleira");
+		setTitle("Alterar Pedido");
 		setBounds(100, 100, 273, 229);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentPane = new JPanel();
@@ -65,32 +47,36 @@ public class TelaAlterarPedido extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		lblId = new JLabel("Id prateleira");
-		lblId.setBounds(19, 56, 102, 14);
-		contentPane.add(this.lblId);
-		lblNome = new JLabel("Nome do Produto");
-		lblNome.setBounds(19, 28, 102, 14);
-		contentPane.add(this.lblNome);
-		textField = new JTextField();
-		textField.setBounds(124, 25, 86, 20);
-		contentPane.add(this.textField);
-		textField.setColumns(10);
-		textField_1 = new JTextField();
-		textField_1.setBounds(124, 53, 40, 20);
-		contentPane.add(this.textField_1);
-		textField_1.setColumns(10);
+		lblIdPedido = new JLabel("ID do Pedido");
+		lblIdPedido.setBounds(19, 28, 102, 14);
+		contentPane.add(this.lblIdPedido);
+		
+		lblIdProduto = new JLabel("ID do Produto");
+		lblIdProduto.setBounds(19, 56, 102, 14);
+		contentPane.add(this.lblIdProduto);
+		
+		textFieldPedido = new JTextField();
+		textFieldPedido.setBounds(124, 25, 50, 20);
+		contentPane.add(this.textFieldPedido);
+		textFieldPedido.setColumns(10);
+		
+		textFieldProduto = new JTextField();
+		textFieldProduto.setBounds(124, 53, 50, 20);
+		contentPane.add(this.textFieldProduto);
+		textFieldProduto.setColumns(10);
+		
 		btnInserir = new JButton("Inserir");
 		btnInserir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String nome = textField.getText();
-					int id = Integer.parseInt(textField_1.getText());
+					int idPedido = Integer.parseInt(textFieldPedido.getText());
+					int idProduto = Integer.parseInt(textFieldProduto.getText());
 					
-					Fachada.inserirProdutoPrateleira(id, nome);
+					Fachada.adicionarProdutoPedido(idPedido, idProduto);
 					
-					lblmsg.setText("produto inserido ");
+					lblmsg.setText("Produto inserido ");
 				} catch (NumberFormatException e) {
-					lblmsg.setText("campo id deve ser numerico");
+					lblmsg.setText("Campo id deve ser numerico");
 				} catch (Exception e) {
 					lblmsg.setText(e.getMessage());
 				}
@@ -104,9 +90,9 @@ public class TelaAlterarPedido extends JFrame {
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				textField.setText("");
-				textField_1.setText("");
-				textField.requestFocus();
+				textFieldPedido.setText("");
+				textFieldProduto.setText("");
+				textFieldPedido.requestFocus();
 			}
 		});
 		btnLimpar.setBounds(81, 130, 102, 23);
@@ -116,11 +102,12 @@ public class TelaAlterarPedido extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String nome = textField.getText();	
+					int idPedido = Integer.parseInt(textFieldPedido.getText());
+					int idProduto = Integer.parseInt(textFieldProduto.getText());	
 					
-					Fachada.removerProdutoPrateleira(nome);
+					Fachada.removerProdutoPedido(idPedido, idProduto);
 					
-					lblmsg.setText("produto removido ");
+					lblmsg.setText("Produto removido");
 				} catch (Exception e1) {
 					lblmsg.setText(e1.getMessage());
 				}
@@ -128,6 +115,5 @@ public class TelaAlterarPedido extends JFrame {
 		});
 		button.setBounds(127, 101, 102, 23);
 		contentPane.add(button);
-
 	}
 }

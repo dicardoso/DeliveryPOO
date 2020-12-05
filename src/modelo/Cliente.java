@@ -56,5 +56,4 @@ public class Cliente {
 		}
 		return "\nNome: " + nome + "\nTelefone: " + telefone + "\nEndereco: " + endereco + "\nPedidos: " + ped ;
 	}
-	
 }

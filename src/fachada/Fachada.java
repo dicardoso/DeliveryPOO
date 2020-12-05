@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import modelo.Pedido;
+import modelo.PedidoExpress;
 import modelo.Produto;
 import modelo.Cliente;
 import repositorio.Repositorio;
@@ -44,6 +45,17 @@ public class Fachada {
 		Cliente cliente = repositorio.localizarCliente(telefone);
 		if(cliente != null) {
 			Pedido p = new Pedido(cliente);
+			cliente.addPedidos(p);
+			repositorio.adicionarPedido(p);
+			return p;
+		}
+		throw new Exception("Cliente inexistente: Telefone " + telefone);
+	}
+	
+	public static Pedido criarPedidoExpress(String telefone, double taxa) throws  Exception{
+		Cliente cliente = repositorio.localizarCliente(telefone);
+		if(cliente != null) {
+			Pedido p = new PedidoExpress(cliente, taxa);
 			cliente.addPedidos(p);
 			repositorio.adicionarPedido(p);
 			return p;
@@ -93,6 +105,10 @@ public class Fachada {
 		if(pedido == null) {
 			throw new Exception("Pedido inexistente");
 		}
+		
+		else if(pedido.isPago()) {
+			throw new Exception("Atenção! Pedido já pago");
+		}
 		else {
 			pedido.setEntregador(nomeEntregador);
 			pedido.setPago(true);
@@ -101,7 +117,7 @@ public class Fachada {
 	
 	public static void cancelarPedido(int idPedido) throws Exception {
 		Pedido pedido = repositorio.localizarPedido(idPedido);
-		
+
 		if(pedido == null) {
 			throw new Exception("Pedido inexistente");
 		}
@@ -128,17 +144,29 @@ public class Fachada {
 		ArrayList<Pedido> pedidos = repositorio.getPedidos();
 		
 		for(Pedido p : pedidos) {
-			if(p.getDataHora().format(formatter).equals(dia.format(formatter))) {
-				total += p.getValorTotal();
+			if(p.isPago()) {
+				if(p.getDataHora().format(formatter).equals(dia.format(formatter))) {
+					
+					total += p.getValorTotal();
+				}
 			}
 		}
 		return total;
 	}
 	
-	public ArrayList<Produto> consultarTop(){
-		ArrayList<Produto> aux = new ArrayList<>();
+	public static String consultarTop(){
+		ArrayList<Produto> aux;
+		aux = repositorio.getProdutos();
 		
-		return aux;
+		Produto top = aux.get(0);;
+		
+		for(Produto p : aux) {
+			if(p.getPedidos().size() >= top.getPedidos().size()) {
+				top = p;
+			}
+		}
+		
+		return "Produto mais pedido\n\n"+ top.getNome().toUpperCase()+"\n"+ top.getPedidos().size()+" pedidos";
 	}
 	/*******************************
 	 *  LISTAGEM
@@ -181,11 +209,9 @@ public class Fachada {
 			break;
 		}
 		case 3:{
-			aux.addAll(pedidos);
+			for(Pedido p : pedidos)
+				if (p.getCliente().getTelefone().equals(telefone)) aux.add(p);
 			break;
-		}
-		default:{
-			System.out.println("Tipo de pedido inválido");
 		}	
 		}
 		return aux;

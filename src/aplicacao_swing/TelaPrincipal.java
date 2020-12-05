@@ -9,11 +9,8 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -22,11 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 import aplicacao_console.AplicacaoConsole;
-import fachada.Fachada;
-import modelo.Produto;
 
 public class TelaPrincipal {
 	private JFrame frame;
@@ -61,14 +55,12 @@ public class TelaPrincipal {
 	}
 
 	/**
-	 * Create the application.
+	 * Cria a aplicação.
 	 */
 	public TelaPrincipal() {
 		initialize();
 	}
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -78,16 +70,12 @@ public class TelaPrincipal {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
 				try{
-					//  pre-cadastro
-					new AplicacaoConsole().cadastrar();
+					//  pre-inicialização
+					new AplicacaoConsole().iniciar();
 					
 				}catch(Exception e){
 					System.out.println(e.getMessage());
 				}
-			}
-			@Override
-			public void windowClosing(WindowEvent e) {
-				JOptionPane.showMessageDialog(frame, "até breve !");
 			}
 		});
 
@@ -109,7 +97,7 @@ public class TelaPrincipal {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
-		//-------------MENU-----------------------------------
+		//-------------MENU PEDIDO-----------------------------------
 		mnPedido = new JMenu("Pedido");
 		menuBar.add(mnPedido);
 
@@ -143,13 +131,13 @@ public class TelaPrincipal {
 		mntmCancelar = new JMenuItem("Cancelar");
 		mntmCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO
+				TelaCancelarPedido j = new TelaCancelarPedido();
 				j.setVisible(true);
 			}
 		});
 		mnPedido.add(mntmCancelar);
 
-		//-------------MENU-----------------------------------
+		//-------------MENU LISTAGEM---------------------------
 		mnListagem = new JMenu("Listagem");
 		menuBar.add(mnListagem);
 
@@ -159,7 +147,7 @@ public class TelaPrincipal {
 		mntmProdutos1 = new JMenuItem("Todos");
 		mntmProdutos1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO
+				TelaListagem j = new TelaListagem("produtos");
 				j.setVisible(true);
 			}
 		});
@@ -168,7 +156,7 @@ public class TelaPrincipal {
 		mntmProdutos1 = new JMenuItem("Top");
 		mntmProdutos1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO
+				TelaListagem j = new TelaListagem("top");
 				j.setVisible(true);
 			}
 		});
@@ -177,7 +165,7 @@ public class TelaPrincipal {
 		mntmClientes = new JMenuItem("Clientes");
 		mntmClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+				TelaListagem j = new TelaListagem("clientes");
 				j.setVisible(true);
 			}
 		});
@@ -189,7 +177,7 @@ public class TelaPrincipal {
 		mntmPedidos1 = new JMenuItem("Todos");
 		mntmPedidos1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaListagem j = new TelaListagem();
+				TelaListagem j = new TelaListagem("pedidos");
 				j.setVisible(true);
 			}
 		});
@@ -198,7 +186,7 @@ public class TelaPrincipal {
 		mntmPedidos1 = new JMenuItem("Por cliente");
 		mntmPedidos1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaCadastroPrateleira j = new TelaCadastroPrateleira();
+				TelaListagem j = new TelaListagem("pedidosCliente");
 				j.setVisible(true);
 			}
 		});
@@ -207,7 +195,7 @@ public class TelaPrincipal {
 		mntmPedidos1 = new JMenuItem("Pagos por cliente");
 		mntmPedidos1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaCadastroPrateleira j = new TelaCadastroPrateleira();
+				TelaListagem j = new TelaListagem("pagos");
 				j.setVisible(true);
 			}
 		});
@@ -216,7 +204,7 @@ public class TelaPrincipal {
 		mntmPedidos1 = new JMenuItem("Não pagos por cliente");
 		mntmPedidos1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaCadastroPrateleira j = new TelaCadastroPrateleira();
+				TelaListagem j = new TelaListagem("naoPagos");
 				j.setVisible(true);
 			}
 		});
@@ -225,7 +213,7 @@ public class TelaPrincipal {
 		mntmArrecadacao = new JMenuItem("Arrecadação");
 		mntmArrecadacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaCadastroPrateleira j = new TelaCadastroPrateleira();
+				TelaListagem j = new TelaListagem("arrecadacao");
 				j.setVisible(true);
 			}
 		});

@@ -59,7 +59,13 @@ public class Repositorio {
 	
 	//*** Pedidos
 	public void adicionarPedido(Pedido p){
-		p.setId(pedidos.size() + 1);
+		
+		if (!pedidos.isEmpty()) {
+			p.setId(pedidos.get(pedidos.size()-1).getId() + 1);
+		}
+		else {
+			p.setId(1);
+		}
 		pedidos.add(p);
 	}
 	
